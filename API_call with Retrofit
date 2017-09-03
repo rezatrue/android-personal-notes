@@ -7,7 +7,7 @@ http://square.github.io/retrofit/  (retrofit user guide)
 */
 
 
-// first add internet access permission in Manifest file
+// 1st step: add internet access permission in Manifest file
 <manifest .......>
 	
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -16,10 +16,62 @@ http://square.github.io/retrofit/  (retrofit user guide)
 	<application ......>
  
 
-// secondly add dependency libraries in app gradle
+// 2nd step: add dependency libraries in app gradle
 
 compile 'com.squareup.retrofit2:retrofit:2.3.0'
 compile 'com.squareup.retrofit2:converter-gson:2.3.0' // for converting json file
 compile 'com.squareup.picasso:picasso:2.5.2'  // if need to download images 
 
 
+// 3rd step: create pojo classes of api a response json using jsonschema2pojo.org
+// pest the classes in the project
+
+// set base Url upto '/' form the response url the rest of the part with use in  
+// here our full url is http://services.hanselandpetal.com/feeds/flowers.json
+// here FlowerServiceApi is a interafce we create later
+    
+	private String base_url = "http://services.hanselandpetal.com/";
+	private FlowerServiceApi flowerServiceApi;
+
+	
+// 4th stop: create Retrofit object
+ 
+		Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(base_url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        flowerServiceApi = retrofit.create(FlowerServiceApi.class);
+
+		
+// 5th step : create interface, 
+// here "feeds/flowers.json" represent last part of response url
+// FlowerResponse is the generate class name
+// we use ArrayList as our json start with array
+
+public interface FlowerServiceApi {
+    @GET("feeds/flowers.json")
+    Call<ArrayList<FlowerResponse>>getResponse();
+
+}		
+		
+// 6th step : Call interface methord for data
+
+        Call<ArrayList<FlowerResponse>> arrayListCall = flowerServiceApi.getResponse();
+        arrayListCall.enqueue(new Callback<ArrayList<FlowerResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<FlowerResponse>> call, Response<ArrayList<FlowerResponse>> response) {
+                if(response.code() == 200){
+                    ArrayList<FlowerResponse>flowerResponses = response.body();
+                    Toast.makeText(MainActivity.this, flowerResponses.get(0).getName(), Toast.LENGTH_SHORT).show();
+                    Picasso.with(getApplicationContext())
+                            .load("http://services.hanselandpetal.com/photos/haight_ashbury.jpg").into((ImageView) findViewById(R.id.fImage));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<FlowerResponse>> call, Throwable t) {
+                //t.toString();
+            }
+        });
+    }
