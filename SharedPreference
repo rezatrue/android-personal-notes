@@ -1,0 +1,28 @@
+// not importent just creating final String vaiavle to use later
+public static final String USER_EMAIL = "user_email";
+public static final String USER_PASSWORD = "user_password";
+public static final String MY_PREFERENCE_FILE= "User Authentication";
+
+
+// SharedPreferences variable declearation
+private SharedPreferences myPreferences;
+private SharedPreferences.Editor editor;
+
+// instanciate SharedPreferences variable
+myPreferences = getSharedPreferences(MY_PREFERENCE_FILE,MODE_PRIVATE);
+editor = myPreferences.edit();
+
+// saving data
+String email = "me@gmail.com";
+String pass = "meme";
+editor.putString(USER_EMAIL,email);
+editor.putString(USER_PASSWORD,pass);
+editor.commit();
+
+// retrieving data
+String email = myPreferences.getString(USER_EMAIL,"no such email found");
+String pass = myPreferences.getString(USER_PASSWORD,"password was not set");
+
+// clearing SharedPreferences
+editor.clear();
+editor.commit();
