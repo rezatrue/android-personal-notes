@@ -1,0 +1,60 @@
+ActiveAndroid has nice annotaions implemetations wich make sql more easy.
+        https://github.com/pardom/ActiveAndroid/wiki/Getting-started
+ 
+Step 01: in gradle file add there in different position
+
+        repositories {
+            mavenCentral()
+            maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        }
+        
+        compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT' 
+ 
+ 
+Step 02: in manifest file add 
+
+      <application 
+          android:name="com.activeandroid.app.Application"     // add this line
+          ...
+          ......>
+          <meta-data android:name="AA_DB_NAME" android:value="BdName" /> // add this line here "BdName" is ur DB name
+          <meta-data android:name="AA_DB_VERSION" android:value="1" />   // add this line here "1" is ur DB version
+          <meta-data
+            android:name="AA_MODELS"
+            android:value="android.reza.com.myeventmanager.Event" />  // here "android.reza.com.myeventmanager.Event" is ur Model class 
+                                                                      // multiple class name can be set in with in the  " " using  
+      </application>                                                   // coma followed by space
+
+
+Step 03: in ur model class add anotations
+
+        @Table(name="Event_Table")          // here "Event_Table" DB table name 
+        public class Event extends Model{   // class name extends Model
+            @Column(name = "name")          // here "name" is table colum name
+            String eName;
+            @Column(name = "date")
+            String eDate;
+            ....
+            ....
+            
+Step 03: inserting data into DB 
+
+        Event event = new Event(eventName,date,time,place,category);  // creating model class object
+        event.save();                                                 // saving data into table
+
+
+Step 04: retieveing data from DB
+
+        List<Event> evenList = new Select().from(Event.class).execute(); // "Event" model class name 
+
+ 
+ Step 05: deleating data from DB
+ 
+        Item item = Item.load(Item.class, 1);
+        item.delete();
+        OR
+        Item.delete(Item.class, 1);
+        OR
+        new Delete().from(Item.class).where("Id = ?", 1).execute();
+            
+            
