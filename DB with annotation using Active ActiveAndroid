@@ -46,6 +46,12 @@ Step 03: inserting data into DB
 Step 04: retieveing data from DB
 
         List<Event> evenList = new Select().from(Event.class).execute(); // "Event" model class name 
+        
+        OR
+        new Select().from(Item.class).where("Category = ?", category.getId()).orderBy("Name ASC").execute();  // for list
+        OR
+        new Select().from(Item.class).where("Category = ?", category.getId()).orderBy("RANDOM()").executeSingle();  // single item
+
 
  
  Step 05: deleating data from DB
