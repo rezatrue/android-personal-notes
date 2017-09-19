@@ -7,15 +7,15 @@ minimum android version 21 is required for this prosess
 Step 01 : add in values -> colors.xml
         <color name="transparent">#00ffffff</color>
 
-Step 01 : add these line in onCreate() methord
+Step 02 : add these line in onCreate() methord
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(getResources().getColor(R.color.transparent));
-            window.setNavigationBarColor(getResources().getColor(R.color.transparent));
+            window.setNavigationBarColor(getResources().getColor(R.color.transparent)); // nav bar transparent
             Drawable background = getResources().getDrawable(R.drawable.gradient);
-            window.setBackgroundDrawable(background);  // full screen get the gradient
+            window.setBackgroundDrawable(background);  // status bar + full screen get the gradient
         }
 
 
