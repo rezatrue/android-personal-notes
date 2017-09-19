@@ -16,3 +16,8 @@ Step 02:
         View title = getWindow().findViewById(R.id.container);
         View titleBar = (View) title.getParent();
         titleBar.setBackgroundDrawable(gd);
+        
+  
+  Note : the above GradientDrawable can also be made with these way:
+        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {0xFF616261,0xFF131313});
+        gd.setCornerRadius(0f);
