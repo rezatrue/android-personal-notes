@@ -1,0 +1,18 @@
+
+..............................................................
+Title Bar Gradient
+..............................................................
+
+
+
+
+..............................................................
+Screen background Gradient
+..............................................................
+
+Step 01 : give mail layout an id example "container"
+Step 02:
+        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {Color.RED,Color.GREEN});
+        View title = getWindow().findViewById(R.id.container);
+        View titleBar = (View) title.getParent();
+        titleBar.setBackgroundDrawable(gd);
