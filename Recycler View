@@ -1,1 +1,18 @@
 
+Step 01 : add dependency to app gradle 
+compile 'com.android.support:recyclerview-v7:26.+'
+
+Step 02: add RecyclerView to xml layout 
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/menuRecycleListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        
+Step 03: add a variable & create a instance 
+      private RecyclerView menuRecycleListView;
+      
+      in onCreate methord : -
+      menuRecycleListView = (RecyclerView) findViewById(R.id.menuRecycleListView);
+
