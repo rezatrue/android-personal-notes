@@ -4,15 +4,140 @@ compile 'com.android.support:recyclerview-v7:26.+'
 
 Step 02: add RecyclerView to xml layout 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/menuRecycleListView"
+            android:id="@+id/carRecyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
-        
-Step 03: add a variable & create a instance 
-      private RecyclerView menuRecycleListView;
+
+
+Step 03: create a custom layout for single item
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true"
+    android:elevation="9dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/carImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            />
+        <TextView
+            android:id="@+id/carNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="sdfi"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
       
-      in onCreate methord : -
-      menuRecycleListView = (RecyclerView) findViewById(R.id.menuRecycleListView);
+      
+Step 04: create an java class(eg., CarAdapter) extending RecyclerView
+   
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import java.util.ArrayList;
+
+public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
+    private Context context;
+    private ArrayList<Car> cars;
+    public CarAdapter(Context context, ArrayList<Car> cars){
+        this.context = context;
+        this.cars = cars;
+    }
+
+    @Override
+    public CarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_row,parent,false);
+        return new CarViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(CarViewHolder holder, int position) {
+        holder.carIV.setImageResource(cars.get(position).getCarImage());
+        holder.carNameTV.setText(cars.get(position).getCarName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return cars.size();
+    }
+
+    public class CarViewHolder extends RecyclerView.ViewHolder{
+
+        private ImageView carIV;
+        private TextView carNameTV;
+
+        public CarViewHolder(View itemView) {
+            super(itemView);
+            carIV = (ImageView) itemView.findViewById(R.id.carImageView);
+            carNameTV = (TextView) itemView.findViewById(R.id.carNameTextView);
+        }
+    }
+}
+      
+Step 05: add a variable & create a instance 
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+    private ArrayList<Car>cars;
+    private RecyclerView recyclerView;
+    private CarAdapter carAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        createCars();  // loading car list to Array list
+
+        recyclerView = (RecyclerView) findViewById(R.id.carRecyclerView);
+        carAdapter = new CarAdapter(this,cars);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        
+        /*  these two lines are for arrranging the layout in different fashion
+        GridLayoutManager glm = new GridLayoutManager(this,1,LinearLayoutManager.HORIZONTAL,false);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.HORIZONTAL);
+        */
+        recyclerView.setLayoutManager(llm);
+        recyclerView.setAdapter(carAdapter);
+    }
+
+    private void createCars() {
+        cars = new ArrayList<>();
+        cars.add(new Car(R.drawable.car2,"Car A"));
+        cars.add(new Car(R.drawable.car2,"Car b"));
+        cars.add(new Car(R.drawable.car2,"Car C"));
+        cars.add(new Car(R.drawable.car2,"Car D"));
+        cars.add(new Car(R.drawable.car2,"Car E"));
+        cars.add(new Car(R.drawable.car2,"Car F"));
+        cars.add(new Car(R.drawable.car2,"Car G"));
+        cars.add(new Car(R.drawable.car2,"Car H"));
+    }
+}
+
 
